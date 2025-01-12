@@ -8,5 +8,8 @@ namespace EComDAL.Model
 {
     public class SubCategory:AuditFields
     {
+        public string? Sub_Category_Name { get; set; }
+        public string? Description { get;set; }
+        public string? Image { get; set; }
     }
 }
