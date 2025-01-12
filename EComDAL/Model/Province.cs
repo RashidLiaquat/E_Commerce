@@ -8,5 +8,6 @@ namespace EComDAL.Model
 {
     public class Province:AuditFields
     {
+        public string? Province_Name { get; set; }
     }
 }
