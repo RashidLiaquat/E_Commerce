@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EComDAL.Model
 {
-    public class Province:AuditFields
+    public class Province : AuditFields
     {
         public string? Province_Name { get; set; }
     }

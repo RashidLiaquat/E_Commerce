@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace EComDAL.Model
 {
-    public class Cart:AuditFields
+    public class Cart : AuditFields
     {
-        public  decimal Total_Amount { get; set; }
+        public decimal Total_Amount { get; set; }
         public decimal Discount_Amount { get; set; }
         public decimal ShippingAmount { get; set; }
         public decimal GrandTotal { get; set; }

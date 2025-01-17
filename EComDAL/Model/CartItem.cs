@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace EComDAL.Model
 {
-    public class CartItem:AuditFields
+    public class CartItem : AuditFields
     {
-        public  int Quantity { get; set; }
-        public  decimal Unit_Price { get; set; }
+        public int Quantity { get; set; }
+        public decimal Unit_Price { get; set; }
         public decimal Discount { get; set; }
         public decimal Total_Price { get; set; }
         public Cart? Cart_Id { get; set; }
