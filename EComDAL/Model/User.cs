@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EComDAL.Model
 {
-    public class User:AuditFields
+    public class User : AuditFields
     {
         public string? Full_Name { get; set; }
         public string? User_Name { get; set; }
@@ -15,10 +15,10 @@ namespace EComDAL.Model
         public bool Gender { get; set; }
         public string? Profile_Pic { get; set; }
         public string? Password { get; set; }
-        public string? Confirm_Password {  get; set; }
+        public string? Confirm_Password { get; set; }
         public string? Address { get; set; }
         public Role? Role_Id { get; set; }
         public Country? Country_Id { get; set; }
-   
+
     }
 }

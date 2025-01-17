@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EComDAL.Model
 {
-    public class Category:AuditFields
+    public class Category : AuditFields
     {
         public string? Category_Name { get; set; }
         public string? Description { get; set; }

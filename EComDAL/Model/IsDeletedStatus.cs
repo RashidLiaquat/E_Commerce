@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EComDAL.Model
 {
-   public enum IsDeletedStatus
+    public enum IsDeletedStatus
     {
         IsDeleted,
         User,

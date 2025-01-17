@@ -11,6 +11,6 @@ namespace EComDAL.Model
         Completed,
         Inprogress,
         Cancel
-        
+
     }
 }
