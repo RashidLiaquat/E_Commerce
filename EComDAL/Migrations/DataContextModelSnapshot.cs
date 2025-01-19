@@ -135,7 +135,9 @@ namespace EComDAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Category_Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Created_By")
                         .HasColumnType("nvarchar(max)");
@@ -147,9 +149,12 @@ namespace EComDAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("Image")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
@@ -180,7 +185,9 @@ namespace EComDAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Country_Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Created_By")
                         .HasColumnType("nvarchar(max)");
@@ -194,8 +201,41 @@ namespace EComDAL.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("Province_IdId")
+                    b.Property<string>("Updated_By")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Updated_Date")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Countries");
+                });
+
+            modelBuilder.Entity("EComDAL.Model.Currency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Created_By")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Created_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DeletedBy")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Updated_By")
                         .HasColumnType("nvarchar(max)");
@@ -205,9 +245,7 @@ namespace EComDAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Province_IdId");
-
-                    b.ToTable("Countries");
+                    b.ToTable("Currencies");
                 });
 
             modelBuilder.Entity("EComDAL.Model.Order", b =>
@@ -219,7 +257,9 @@ namespace EComDAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Billing_Address")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Created_By")
                         .HasColumnType("nvarchar(max)");
@@ -237,7 +277,9 @@ namespace EComDAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Shipping_Address")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<decimal>("Shipping_Fee")
                         .HasColumnType("decimal(18,2)");
@@ -317,6 +359,70 @@ namespace EComDAL.Migrations
                     b.ToTable("OrderItems");
                 });
 
+            modelBuilder.Entity("EComDAL.Model.Payment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Created_By")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Created_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("Currency_IdId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DeletedBy")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("Order_IdId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Pay_Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Payment_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TranscationId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Updated_By")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Updated_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("User_IdId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Currency_IdId");
+
+                    b.HasIndex("Order_IdId");
+
+                    b.HasIndex("User_IdId");
+
+                    b.ToTable("Payments");
+                });
+
             modelBuilder.Entity("EComDAL.Model.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -338,9 +444,12 @@ namespace EComDAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Image")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
@@ -350,10 +459,14 @@ namespace EComDAL.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Product_Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("SKU")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("Stock_Quantity")
                         .HasColumnType("int");
@@ -384,6 +497,9 @@ namespace EComDAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("Country_IdId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Created_By")
                         .HasColumnType("nvarchar(max)");
 
@@ -397,7 +513,9 @@ namespace EComDAL.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Province_Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Updated_By")
                         .HasColumnType("nvarchar(max)");
@@ -406,6 +524,8 @@ namespace EComDAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Country_IdId");
 
                     b.ToTable("Provinces");
                 });
@@ -428,16 +548,22 @@ namespace EComDAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("Permissions")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Role_Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Updated_By")
                         .HasColumnType("nvarchar(max)");
@@ -468,16 +594,21 @@ namespace EComDAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Image")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("Sub_Category_Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Updated_By")
                         .HasColumnType("nvarchar(max)");
@@ -499,13 +630,9 @@ namespace EComDAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Confirm_Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Country_IdId")
-                        .HasColumnType("int");
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Created_By")
                         .HasColumnType("nvarchar(max)");
@@ -517,10 +644,14 @@ namespace EComDAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Full_Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("Gender")
                         .HasColumnType("bit");
@@ -529,13 +660,20 @@ namespace EComDAL.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone_Number")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Profile_Pic")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Province_IdId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("Role_IdId")
                         .HasColumnType("int");
@@ -547,11 +685,13 @@ namespace EComDAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("User_Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Country_IdId");
+                    b.HasIndex("Province_IdId");
 
                     b.HasIndex("Role_IdId");
 
@@ -591,15 +731,6 @@ namespace EComDAL.Migrations
                     b.Navigation("SubCategory_Id");
                 });
 
-            modelBuilder.Entity("EComDAL.Model.Country", b =>
-                {
-                    b.HasOne("EComDAL.Model.Province", "Province_Id")
-                        .WithMany()
-                        .HasForeignKey("Province_IdId");
-
-                    b.Navigation("Province_Id");
-                });
-
             modelBuilder.Entity("EComDAL.Model.Order", b =>
                 {
                     b.HasOne("EComDAL.Model.User", "User_Id")
@@ -624,6 +755,27 @@ namespace EComDAL.Migrations
                     b.Navigation("Product_Id");
                 });
 
+            modelBuilder.Entity("EComDAL.Model.Payment", b =>
+                {
+                    b.HasOne("EComDAL.Model.Currency", "Currency_Id")
+                        .WithMany()
+                        .HasForeignKey("Currency_IdId");
+
+                    b.HasOne("EComDAL.Model.Order", "Order_Id")
+                        .WithMany()
+                        .HasForeignKey("Order_IdId");
+
+                    b.HasOne("EComDAL.Model.User", "User_Id")
+                        .WithMany()
+                        .HasForeignKey("User_IdId");
+
+                    b.Navigation("Currency_Id");
+
+                    b.Navigation("Order_Id");
+
+                    b.Navigation("User_Id");
+                });
+
             modelBuilder.Entity("EComDAL.Model.Product", b =>
                 {
                     b.HasOne("EComDAL.Model.Category", "Category_Id")
@@ -639,17 +791,26 @@ namespace EComDAL.Migrations
                     b.Navigation("SubCategory_Id");
                 });
 
-            modelBuilder.Entity("EComDAL.Model.User", b =>
+            modelBuilder.Entity("EComDAL.Model.Province", b =>
                 {
                     b.HasOne("EComDAL.Model.Country", "Country_Id")
                         .WithMany()
                         .HasForeignKey("Country_IdId");
 
+                    b.Navigation("Country_Id");
+                });
+
+            modelBuilder.Entity("EComDAL.Model.User", b =>
+                {
+                    b.HasOne("EComDAL.Model.Province", "Province_Id")
+                        .WithMany()
+                        .HasForeignKey("Province_IdId");
+
                     b.HasOne("EComDAL.Model.Role", "Role_Id")
                         .WithMany()
                         .HasForeignKey("Role_IdId");
 
-                    b.Navigation("Country_Id");
+                    b.Navigation("Province_Id");
 
                     b.Navigation("Role_Id");
                 });

@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace EComDAL.Model
 {
-    public class Country : AuditFields
+    public class Currency : AuditFields
     {
         [Required]
-        [StringLength(50, ErrorMessage = "Country Name cannot exceed 50 characters")]
-        public string? Country_Name { get; set; }
+        [StringLength(50, ErrorMessage = "Title cannot exceed 50 characters")]
+        public string? Title { get; set; }
     }
 }
