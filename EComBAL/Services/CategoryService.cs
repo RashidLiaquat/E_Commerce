@@ -9,10 +9,6 @@ namespace EComBAL.Services
 {
     internal class CategoryService
     {
-        private readonly CategoryRepository _repository;
-        public CategoryService(CategoryRepository repository)
-        {
-            _repository = repository;
-        }
+      
     }
 }

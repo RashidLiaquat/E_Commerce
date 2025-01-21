@@ -9,11 +9,6 @@ namespace EComBAL.Services
 {
     internal class ProvinceService
     {
-        private readonly ProvinceRepository _repository;
-
-        public ProvinceService(ProvinceRepository repository)
-        {
-            _repository = repository;
-        }
+        
     }
 }
