@@ -1,13 +1,14 @@
-﻿using System;
+﻿using EComDAL.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EComDAL.Model
+namespace EComDAL.DTOs
 {
-    public class Order : AuditFields
+    public class Orderdto : AuditFieldsdto
     {
         public DateTime Order_Date { get; set; } = DateTime.Now;
         public decimal Total_Amount { get; set; }
@@ -21,6 +22,5 @@ namespace EComDAL.Model
         public string? Shipping_Address { get; set; }
         public User? User_Id { get; set; }
         public Status Status { get; set; }
-
     }
 }
