@@ -9,10 +9,6 @@ namespace EComBAL.Services
 {
     internal class CartItemService
     {
-        private readonly CartItemRepository _repository;
-        public CartItemService(CartItemRepository repository)
-        {
-            _repository = repository;
-        }
+       
     }
 }

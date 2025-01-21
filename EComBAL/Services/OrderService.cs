@@ -9,10 +9,6 @@ namespace EComBAL.Services
 {
     internal class OrderService
     {
-        private readonly OrderRepository _repository;
-        public OrderService(OrderRepository repository)
-        {
-            _repository = repository;
-        }
+       
     }
 }

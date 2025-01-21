@@ -9,10 +9,6 @@ namespace EComBAL.Services
 {
     internal class CountryService
     {
-        private readonly CountryRepository _repository;
-        public CountryService(CountryRepository repository)
-        {
-            _repository = repository;
-        }
+       
     }
 }

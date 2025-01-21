@@ -9,11 +9,6 @@ namespace EComBAL.Services
 {
     internal class UserService
     {
-        private readonly UserRepository _repository;
-
-        public UserService(UserRepository repository)
-        {
-            _repository = repository;
-        }
+     
     }
 }

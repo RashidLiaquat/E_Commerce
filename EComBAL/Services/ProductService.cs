@@ -9,10 +9,6 @@ namespace EComBAL.Services
 {
     internal class ProductService
     {
-        private readonly ProductRepository _repository;
-        public ProductService(ProductRepository repository)
-        {
-            _repository = repository;
-        }
+       
     }
 }

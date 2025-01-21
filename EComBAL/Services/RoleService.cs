@@ -9,10 +9,6 @@ namespace EComBAL.Services
 {
     internal class RoleService
     {
-        private readonly RoleRepository _repository;
-        public RoleService(RoleRepository repository)
-        {
-            _repository = repository;
-        }
+       
     }
 }
