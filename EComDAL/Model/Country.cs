@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace EComDAL.Model
 {
     public class Country : AuditFields
     {
+        [Key]
+        public int Id { get; set; }
+
         [Required]
         [StringLength(50, ErrorMessage = "Country Name cannot exceed 50 characters")]
         public string? Country_Name { get; set; }
+
+        //public ICollection<Province> Provinces { get; set; } = new List<Province>();
     }
 }

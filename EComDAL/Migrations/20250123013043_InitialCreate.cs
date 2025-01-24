@@ -98,7 +98,7 @@ namespace EComDAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Province_Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Country_IdId = table.Column<int>(type: "int", nullable: true),
+                    Country_Id = table.Column<int>(type: "int", nullable: false),
                     Created_By = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Updated_By = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -110,10 +110,11 @@ namespace EComDAL.Migrations
                 {
                     table.PrimaryKey("PK_Provinces", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Provinces_Countries_Country_IdId",
-                        column: x => x.Country_IdId,
+                        name: "FK_Provinces_Countries_Country_Id",
+                        column: x => x.Country_Id,
                         principalTable: "Countries",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -125,7 +126,7 @@ namespace EComDAL.Migrations
                     Category_Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SubCategory_IdId = table.Column<int>(type: "int", nullable: true),
+                    SubCategoryId = table.Column<int>(type: "int", nullable: false),
                     Created_By = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Updated_By = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -137,10 +138,11 @@ namespace EComDAL.Migrations
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Categories_SubCategories_SubCategory_IdId",
-                        column: x => x.SubCategory_IdId,
+                        name: "FK_Categories_SubCategories_SubCategoryId",
+                        column: x => x.SubCategoryId,
                         principalTable: "SubCategories",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,8 +159,8 @@ namespace EComDAL.Migrations
                     Profile_Pic = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    Role_IdId = table.Column<int>(type: "int", nullable: true),
-                    Province_IdId = table.Column<int>(type: "int", nullable: true),
+                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    ProvinceID = table.Column<int>(type: "int", nullable: false),
                     Created_By = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Updated_By = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -170,15 +172,17 @@ namespace EComDAL.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Provinces_Province_IdId",
-                        column: x => x.Province_IdId,
+                        name: "FK_Users_Provinces_ProvinceID",
+                        column: x => x.ProvinceID,
                         principalTable: "Provinces",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Users_Roles_Role_IdId",
-                        column: x => x.Role_IdId,
+                        name: "FK_Users_Roles_RoleId",
+                        column: x => x.RoleId,
                         principalTable: "Roles",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -193,8 +197,7 @@ namespace EComDAL.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Stock_Quantity = table.Column<int>(type: "int", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Category_IdId = table.Column<int>(type: "int", nullable: true),
-                    SubCategory_IdId = table.Column<int>(type: "int", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
                     Created_By = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Updated_By = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -206,15 +209,11 @@ namespace EComDAL.Migrations
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Categories_Category_IdId",
-                        column: x => x.Category_IdId,
+                        name: "FK_Products_Categories_CategoryId",
+                        column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Products_SubCategories_SubCategory_IdId",
-                        column: x => x.SubCategory_IdId,
-                        principalTable: "SubCategories",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -228,7 +227,7 @@ namespace EComDAL.Migrations
                     ShippingAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     GrandTotal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CartStatus = table.Column<int>(type: "int", nullable: false),
-                    User_IdId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     Created_By = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Updated_By = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -240,10 +239,11 @@ namespace EComDAL.Migrations
                 {
                     table.PrimaryKey("PK_Carts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Carts_Users_User_IdId",
-                        column: x => x.User_IdId,
+                        name: "FK_Carts_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -257,7 +257,7 @@ namespace EComDAL.Migrations
                     Shipping_Fee = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Billing_Address = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Shipping_Address = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    User_IdId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     Created_By = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Updated_By = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -270,10 +270,11 @@ namespace EComDAL.Migrations
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Users_User_IdId",
-                        column: x => x.User_IdId,
+                        name: "FK_Orders_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -286,8 +287,8 @@ namespace EComDAL.Migrations
                     Unit_Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Total_Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Cart_IdId = table.Column<int>(type: "int", nullable: true),
-                    Product_IdId = table.Column<int>(type: "int", nullable: true),
+                    CartId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
                     Created_By = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Updated_By = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -299,15 +300,17 @@ namespace EComDAL.Migrations
                 {
                     table.PrimaryKey("PK_CartItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CartItems_Carts_Cart_IdId",
-                        column: x => x.Cart_IdId,
+                        name: "FK_CartItems_Carts_CartId",
+                        column: x => x.CartId,
                         principalTable: "Carts",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CartItems_Products_Product_IdId",
-                        column: x => x.Product_IdId,
+                        name: "FK_CartItems_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -320,8 +323,8 @@ namespace EComDAL.Migrations
                     Unit_Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Total_Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Order_IdId = table.Column<int>(type: "int", nullable: true),
-                    Product_IdId = table.Column<int>(type: "int", nullable: true),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
                     Created_By = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Updated_By = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -333,15 +336,17 @@ namespace EComDAL.Migrations
                 {
                     table.PrimaryKey("PK_OrderItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderItems_Orders_Order_IdId",
-                        column: x => x.Order_IdId,
+                        name: "FK_OrderItems_Orders_OrderId",
+                        column: x => x.OrderId,
                         principalTable: "Orders",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderItems_Products_Product_IdId",
-                        column: x => x.Product_IdId,
+                        name: "FK_OrderItems_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -355,10 +360,10 @@ namespace EComDAL.Migrations
                     Pay_Status = table.Column<int>(type: "int", nullable: false),
                     TranscationId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Payment_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Currency_IdId = table.Column<int>(type: "int", nullable: true),
+                    CurrencyId = table.Column<int>(type: "int", nullable: false),
                     Remarks = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    User_IdId = table.Column<int>(type: "int", nullable: true),
-                    Order_IdId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
                     Created_By = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Updated_By = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -370,96 +375,94 @@ namespace EComDAL.Migrations
                 {
                     table.PrimaryKey("PK_Payments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Payments_Currencies_Currency_IdId",
-                        column: x => x.Currency_IdId,
+                        name: "FK_Payments_Currencies_CurrencyId",
+                        column: x => x.CurrencyId,
                         principalTable: "Currencies",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Payments_Orders_Order_IdId",
-                        column: x => x.Order_IdId,
+                        name: "FK_Payments_Orders_OrderId",
+                        column: x => x.OrderId,
                         principalTable: "Orders",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Payments_Users_User_IdId",
-                        column: x => x.User_IdId,
+                        name: "FK_Payments_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartItems_Cart_IdId",
+                name: "IX_CartItems_CartId",
                 table: "CartItems",
-                column: "Cart_IdId");
+                column: "CartId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartItems_Product_IdId",
+                name: "IX_CartItems_ProductId",
                 table: "CartItems",
-                column: "Product_IdId");
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Carts_User_IdId",
+                name: "IX_Carts_UserId",
                 table: "Carts",
-                column: "User_IdId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Categories_SubCategory_IdId",
+                name: "IX_Categories_SubCategoryId",
                 table: "Categories",
-                column: "SubCategory_IdId");
+                column: "SubCategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_Order_IdId",
+                name: "IX_OrderItems_OrderId",
                 table: "OrderItems",
-                column: "Order_IdId");
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_Product_IdId",
+                name: "IX_OrderItems_ProductId",
                 table: "OrderItems",
-                column: "Product_IdId");
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_User_IdId",
+                name: "IX_Orders_UserId",
                 table: "Orders",
-                column: "User_IdId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payments_Currency_IdId",
+                name: "IX_Payments_CurrencyId",
                 table: "Payments",
-                column: "Currency_IdId");
+                column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payments_Order_IdId",
+                name: "IX_Payments_OrderId",
                 table: "Payments",
-                column: "Order_IdId");
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payments_User_IdId",
+                name: "IX_Payments_UserId",
                 table: "Payments",
-                column: "User_IdId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_Category_IdId",
+                name: "IX_Products_CategoryId",
                 table: "Products",
-                column: "Category_IdId");
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_SubCategory_IdId",
-                table: "Products",
-                column: "SubCategory_IdId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Provinces_Country_IdId",
+                name: "IX_Provinces_Country_Id",
                 table: "Provinces",
-                column: "Country_IdId");
+                column: "Country_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_Province_IdId",
+                name: "IX_Users_ProvinceID",
                 table: "Users",
-                column: "Province_IdId");
+                column: "ProvinceID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_Role_IdId",
+                name: "IX_Users_RoleId",
                 table: "Users",
-                column: "Role_IdId");
+                column: "RoleId");
         }
 
         /// <inheritdoc />

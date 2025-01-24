@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EComDAL.Model
 {
     public class User : AuditFields
     {
+        [Key]
+        public int Id { get; set; }
         [Required]
         [StringLength(100, ErrorMessage = "Full Name cannot exceed 100 characters")]
         public string? Full_Name { get; set; }
@@ -40,8 +37,23 @@ namespace EComDAL.Model
         [Required]
         [StringLength(250, ErrorMessage = "Address cannot exceed 250 characters")]
         public string? Address { get; set; }
-        public Role? Role_Id { get; set; }
-        public Province? Province_Id { get; set; }
+
+        [Required]
+        public int RoleId { get; set; }
+
+        [ForeignKey(nameof(RoleId))] // Establishes the Foreign Key relationship
+        public Role Role { get; set; } = null!;
+
+        [Required] // Foreign Key to Province
+        public int ProvinceID { get; set; }
+
+        [ForeignKey(nameof(ProvinceID))] // Establishes the Foreign Key relationship
+        public Province Province { get; set; } = null!;
+
+        public ICollection<Cart> Carts { get; set; } = new List<Cart>();
+        public ICollection<Order> orders { get; set; } = new List<Order>();
+
+        public ICollection<Payment> payment { get; set; } = new List<Payment>();
 
     }
 }

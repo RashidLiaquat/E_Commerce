@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EComDAL.Model
 {
     public class Product : AuditFields
     {
+        [Key]
+        public int Id { get; set; }
         [Required]
         [StringLength(100, ErrorMessage = "Product Name cannot exceed 100 characters")]
         public string? Product_Name { get; set; }
@@ -26,8 +24,14 @@ namespace EComDAL.Model
         public int Stock_Quantity { get; set; }
         [Required]
         public string? Image { get; set; }
-        public Category? Category_Id { get; set; }
-        public SubCategory? SubCategory_Id { get; set; }
+        [Required]
+        public int CategoryId { get; set; }
+
+        [ForeignKey(nameof(CategoryId))]
+        public Category Category { get; set; } = null!;
+
+        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        public ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
 
     }
 }

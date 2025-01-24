@@ -17,7 +17,7 @@ namespace EComDAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "9.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -63,12 +63,12 @@ namespace EComDAL.Migrations
                     b.Property<DateTime>("Updated_Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("User_IdId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("User_IdId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Carts");
                 });
@@ -81,7 +81,7 @@ namespace EComDAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("Cart_IdId")
+                    b.Property<int>("CartId")
                         .HasColumnType("int");
 
                     b.Property<string>("Created_By")
@@ -99,7 +99,7 @@ namespace EComDAL.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("Product_IdId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -119,9 +119,9 @@ namespace EComDAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Cart_IdId");
+                    b.HasIndex("CartId");
 
-                    b.HasIndex("Product_IdId");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("CartItems");
                 });
@@ -160,7 +160,7 @@ namespace EComDAL.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("SubCategory_IdId")
+                    b.Property<int>("SubCategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Updated_By")
@@ -171,7 +171,7 @@ namespace EComDAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SubCategory_IdId");
+                    b.HasIndex("SubCategoryId");
 
                     b.ToTable("Categories");
                 });
@@ -296,12 +296,12 @@ namespace EComDAL.Migrations
                     b.Property<DateTime>("Updated_Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("User_IdId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("User_IdId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -329,10 +329,10 @@ namespace EComDAL.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("Order_IdId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Product_IdId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -352,9 +352,9 @@ namespace EComDAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Order_IdId");
+                    b.HasIndex("OrderId");
 
-                    b.HasIndex("Product_IdId");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("OrderItems");
                 });
@@ -376,7 +376,7 @@ namespace EComDAL.Migrations
                     b.Property<DateTime>("Created_Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("Currency_IdId")
+                    b.Property<int>("CurrencyId")
                         .HasColumnType("int");
 
                     b.Property<int>("DeletedBy")
@@ -385,7 +385,7 @@ namespace EComDAL.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("Order_IdId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<int>("Pay_Status")
@@ -409,16 +409,16 @@ namespace EComDAL.Migrations
                     b.Property<DateTime>("Updated_Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("User_IdId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Currency_IdId");
+                    b.HasIndex("CurrencyId");
 
-                    b.HasIndex("Order_IdId");
+                    b.HasIndex("OrderId");
 
-                    b.HasIndex("User_IdId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Payments");
                 });
@@ -431,7 +431,7 @@ namespace EComDAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("Category_IdId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Created_By")
@@ -471,9 +471,6 @@ namespace EComDAL.Migrations
                     b.Property<int>("Stock_Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SubCategory_IdId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Updated_By")
                         .HasColumnType("nvarchar(max)");
 
@@ -482,9 +479,7 @@ namespace EComDAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Category_IdId");
-
-                    b.HasIndex("SubCategory_IdId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
                 });
@@ -497,7 +492,7 @@ namespace EComDAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("Country_IdId")
+                    b.Property<int>("Country_Id")
                         .HasColumnType("int");
 
                     b.Property<string>("Created_By")
@@ -525,7 +520,7 @@ namespace EComDAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Country_IdId");
+                    b.HasIndex("Country_Id");
 
                     b.ToTable("Provinces");
                 });
@@ -672,10 +667,10 @@ namespace EComDAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Province_IdId")
+                    b.Property<int>("ProvinceID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Role_IdId")
+                    b.Property<int>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<string>("Updated_By")
@@ -691,128 +686,208 @@ namespace EComDAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Province_IdId");
+                    b.HasIndex("ProvinceID");
 
-                    b.HasIndex("Role_IdId");
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("EComDAL.Model.Cart", b =>
                 {
-                    b.HasOne("EComDAL.Model.User", "User_Id")
-                        .WithMany()
-                        .HasForeignKey("User_IdId");
+                    b.HasOne("EComDAL.Model.User", "User")
+                        .WithMany("Carts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("User_Id");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EComDAL.Model.CartItem", b =>
                 {
-                    b.HasOne("EComDAL.Model.Cart", "Cart_Id")
-                        .WithMany()
-                        .HasForeignKey("Cart_IdId");
+                    b.HasOne("EComDAL.Model.Cart", "Cart")
+                        .WithMany("CartItems")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("EComDAL.Model.Product", "Product_Id")
-                        .WithMany()
-                        .HasForeignKey("Product_IdId");
+                    b.HasOne("EComDAL.Model.Product", "Product")
+                        .WithMany("CartItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Cart_Id");
+                    b.Navigation("Cart");
 
-                    b.Navigation("Product_Id");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("EComDAL.Model.Category", b =>
                 {
-                    b.HasOne("EComDAL.Model.SubCategory", "SubCategory_Id")
-                        .WithMany()
-                        .HasForeignKey("SubCategory_IdId");
+                    b.HasOne("EComDAL.Model.SubCategory", "SubCategory")
+                        .WithMany("Categories")
+                        .HasForeignKey("SubCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("SubCategory_Id");
+                    b.Navigation("SubCategory");
                 });
 
             modelBuilder.Entity("EComDAL.Model.Order", b =>
                 {
-                    b.HasOne("EComDAL.Model.User", "User_Id")
-                        .WithMany()
-                        .HasForeignKey("User_IdId");
+                    b.HasOne("EComDAL.Model.User", "User")
+                        .WithMany("orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("User_Id");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EComDAL.Model.OrderItem", b =>
                 {
-                    b.HasOne("EComDAL.Model.Order", "Order_Id")
-                        .WithMany()
-                        .HasForeignKey("Order_IdId");
+                    b.HasOne("EComDAL.Model.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("EComDAL.Model.Product", "Product_Id")
-                        .WithMany()
-                        .HasForeignKey("Product_IdId");
+                    b.HasOne("EComDAL.Model.Product", "Product")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Order_Id");
+                    b.Navigation("Order");
 
-                    b.Navigation("Product_Id");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("EComDAL.Model.Payment", b =>
                 {
-                    b.HasOne("EComDAL.Model.Currency", "Currency_Id")
-                        .WithMany()
-                        .HasForeignKey("Currency_IdId");
+                    b.HasOne("EComDAL.Model.Currency", "Currency")
+                        .WithMany("Payment")
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("EComDAL.Model.Order", "Order_Id")
-                        .WithMany()
-                        .HasForeignKey("Order_IdId");
+                    b.HasOne("EComDAL.Model.Order", "Order")
+                        .WithMany("Payments")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("EComDAL.Model.User", "User_Id")
-                        .WithMany()
-                        .HasForeignKey("User_IdId");
+                    b.HasOne("EComDAL.Model.User", "User")
+                        .WithMany("payment")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Currency_Id");
+                    b.Navigation("Currency");
 
-                    b.Navigation("Order_Id");
+                    b.Navigation("Order");
 
-                    b.Navigation("User_Id");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EComDAL.Model.Product", b =>
                 {
-                    b.HasOne("EComDAL.Model.Category", "Category_Id")
-                        .WithMany()
-                        .HasForeignKey("Category_IdId");
+                    b.HasOne("EComDAL.Model.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("EComDAL.Model.SubCategory", "SubCategory_Id")
-                        .WithMany()
-                        .HasForeignKey("SubCategory_IdId");
-
-                    b.Navigation("Category_Id");
-
-                    b.Navigation("SubCategory_Id");
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("EComDAL.Model.Province", b =>
                 {
-                    b.HasOne("EComDAL.Model.Country", "Country_Id")
-                        .WithMany()
-                        .HasForeignKey("Country_IdId");
+                    b.HasOne("EComDAL.Model.Country", "Country")
+                        .WithMany("Provinces")
+                        .HasForeignKey("Country_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Country_Id");
+                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("EComDAL.Model.User", b =>
                 {
-                    b.HasOne("EComDAL.Model.Province", "Province_Id")
-                        .WithMany()
-                        .HasForeignKey("Province_IdId");
+                    b.HasOne("EComDAL.Model.Province", "Province")
+                        .WithMany("Users")
+                        .HasForeignKey("ProvinceID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("EComDAL.Model.Role", "Role_Id")
-                        .WithMany()
-                        .HasForeignKey("Role_IdId");
+                    b.HasOne("EComDAL.Model.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Province_Id");
+                    b.Navigation("Province");
 
-                    b.Navigation("Role_Id");
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("EComDAL.Model.Cart", b =>
+                {
+                    b.Navigation("CartItems");
+                });
+
+            modelBuilder.Entity("EComDAL.Model.Category", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("EComDAL.Model.Country", b =>
+                {
+                    b.Navigation("Provinces");
+                });
+
+            modelBuilder.Entity("EComDAL.Model.Currency", b =>
+                {
+                    b.Navigation("Payment");
+                });
+
+            modelBuilder.Entity("EComDAL.Model.Order", b =>
+                {
+                    b.Navigation("OrderItems");
+
+                    b.Navigation("Payments");
+                });
+
+            modelBuilder.Entity("EComDAL.Model.Product", b =>
+                {
+                    b.Navigation("CartItems");
+
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("EComDAL.Model.Province", b =>
+                {
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("EComDAL.Model.Role", b =>
+                {
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("EComDAL.Model.SubCategory", b =>
+                {
+                    b.Navigation("Categories");
+                });
+
+            modelBuilder.Entity("EComDAL.Model.User", b =>
+                {
+                    b.Navigation("Carts");
+
+                    b.Navigation("orders");
+
+                    b.Navigation("payment");
                 });
 #pragma warning restore 612, 618
         }

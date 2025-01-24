@@ -13,6 +13,6 @@ namespace EComDAL.DTOs
         [Required]
         [StringLength(100, ErrorMessage = "Province Name cannot exceed 100 characters")]
         public string? Province_Name { get; set; }
-        public Country? Country_Id { get; set; }
+        public int? CountryId { get; set; }
     }
 }

@@ -25,5 +25,98 @@ namespace EComDAL.Context
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Currency> Currencies { get; set; }
 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            //modelBuilder.Entity<Country>()
+            //    .HasMany(c => c.Provinces)
+            //    .WithOne(p => p.Country)
+            //    .HasForeignKey(p => p.Country_Id)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+
+            //modelBuilder.Entity<Province>()
+            //    .HasMany(p => p.Users)
+            //    .WithOne(u => u.Province)
+            //    .HasForeignKey(u => u.ProvinceID)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+                .HasMany(us => us.Carts)
+                .WithOne(u => u.User)
+                .HasForeignKey(u => u.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Cart>()
+                .HasMany(ca => ca.CartItems)
+                .WithOne(us => us.Cart)
+                .HasForeignKey(us => us.CartId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<Product>()
+                .HasMany(ca => ca.CartItems)
+                .WithOne(us => us.Product)
+                .HasForeignKey(us => us.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<SubCategory>()
+                .HasMany(cat => cat.Categories)
+                .WithOne(subcat => subcat.SubCategory)
+                .HasForeignKey(cat => cat.SubCategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+                .HasMany(or => or.orders)
+                .WithOne(u => u.User)
+                .HasForeignKey(u => u.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Order>()
+                .HasMany(ori => ori.OrderItems)
+                .WithOne(or => or.Order)
+                .HasForeignKey(or => or.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Product>()
+                .HasMany(ori => ori.OrderItems)
+                .WithOne(us => us.Product)
+                .HasForeignKey(us => us.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+                .HasMany(pa => pa.payment)
+                .WithOne(us => us.User)
+                .HasForeignKey(us => us.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Order>()
+                .HasMany(pa => pa.Payments)
+                .WithOne(or => or.Order)
+                .HasForeignKey(or => or.OrderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Currency>()
+                .HasMany(pa => pa.Payment)
+                .WithOne(cu => cu.Currency)
+                .HasForeignKey(cu => cu.CurrencyId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Category>()
+                .HasMany(p => p.Products)
+                .WithOne(ca => ca.Category)
+                .HasForeignKey(ca => ca.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Role>()
+                .HasMany(u => u.Users)
+                .WithOne(ro => ro.Role)
+                .HasForeignKey(ro => ro.RoleId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+        }
+
     }
 }
