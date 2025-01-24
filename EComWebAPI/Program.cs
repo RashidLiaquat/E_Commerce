@@ -20,6 +20,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<ICountryRepository, CountryRepository>();
+builder.Services.AddScoped<IProvinceRepository, ProvinceRepository>();
  
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
