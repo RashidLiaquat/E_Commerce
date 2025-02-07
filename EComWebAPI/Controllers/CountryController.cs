@@ -1,9 +1,11 @@
 ﻿using EComDAL.DTOs;
 using EComDAL.Repositories.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EComWebAPI.Controllers
 {
+    
     [ApiController]
     [Route("[controller]")]
     public class CountryController : Controller
@@ -13,7 +15,7 @@ namespace EComWebAPI.Controllers
         {
             _countryRepository = countryRepository;      
         }
-
+        [Authorize]
         [HttpGet ("Get_Countries")]
         public async Task<IActionResult> GetAllCountries()
         {
@@ -24,6 +26,7 @@ namespace EComWebAPI.Controllers
             }
             return Ok(result);
         }
+        [Authorize]
         [HttpGet("GetCountryById/{Id:int}")]
         public async Task<IActionResult> GetCountryById(int Id)
         {
@@ -34,18 +37,21 @@ namespace EComWebAPI.Controllers
             }
             return Ok(result);
         }
+        [Authorize]
         [HttpPost ("Add_Country")]
         public async Task<IActionResult> AddCountry([FromBody] Countrydto countrydto)
         {
             await _countryRepository.AddCountry(countrydto);
             return Ok("Country Sucessfully Added");
         }
+        [Authorize]
         [HttpPost("DeleteCountry/{Id:int}")]
         public async Task<IActionResult> DeleteCountry(int Id)
         {
             await _countryRepository.DeleteCountry(Id);
             return Ok("Country Deleted Sucessfully");
         }
+        [Authorize]
         [HttpPost("UpdateCountry/{Id:int}")]
         public async Task<IActionResult> UpdateCountry(int Id,Countrydto countrydto)
         {

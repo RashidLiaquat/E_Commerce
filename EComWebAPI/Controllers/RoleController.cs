@@ -1,11 +1,13 @@
 ﻿using EComDAL.DTOs;
 using EComDAL.Repositories;
 using EComDAL.Repositories.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EComWebAPI.Controllers
 {
+    
     [ApiController]
     [Route("[controller]")]
     public class RoleController : ControllerBase
@@ -15,6 +17,7 @@ namespace EComWebAPI.Controllers
         {
             _roleRepository = roleRepository;
         }
+        [Authorize]
         [HttpGet("GetRoleList")]
         public async Task<IActionResult> GetRoleList()
         {
@@ -27,6 +30,7 @@ namespace EComWebAPI.Controllers
 
             return Ok(result);
         }
+        [Authorize]
 
         [HttpGet("GetRoleById/{id:int}")]
         public async Task<IActionResult> GetRoleById(int id)
@@ -40,6 +44,7 @@ namespace EComWebAPI.Controllers
 
             return Ok(result);
         }
+        [Authorize]
 
         [HttpPost("Add_Role")]
         public async Task<IActionResult> AddRole([FromBody] Roledto roledto)
@@ -48,14 +53,14 @@ namespace EComWebAPI.Controllers
 
             return Ok("Role sucessfully Added!");
         }
-
+        [Authorize]
         [HttpDelete("Delete_Role/{id:int}")]
         public async Task<IActionResult> DeleteRole(int id)
         {
             await _roleRepository.DeleteRoleAsync(id);
             return Ok("Role sucessfully Deleted!");
         }
-
+        [Authorize]
         [HttpPost("Update_Role/{Id:int}")]
         public async Task<IActionResult> Update(Roledto roledto,int Id) 
         {
