@@ -11,8 +11,8 @@ namespace EComWebAPI.Mappings
             CreateMap<Role, Roledto>().ReverseMap();
             CreateMap<User, Userdto>().ReverseMap();
             CreateMap<Provincedto, Province>()
-               .ForMember(dest => dest.Country, opt => opt.Ignore())  // Country navigation property ignore karein
-               .ForMember(dest => dest.Country_Id, opt => opt.MapFrom(src => src.CountryId));  // Sirf CountryId map karein
+               .ForMember(dest => dest.Country, opt => opt.Ignore())  // Country navigation property ignore
+               .ForMember(dest => dest.CountryId, opt => opt.MapFrom(src => src.CountryId)); 
             CreateMap<Cart, Cartdto>().ReverseMap();
             CreateMap<CartItem, CartItemdto>().ReverseMap();
             CreateMap<Category, Categorydto>().ReverseMap();

@@ -13,7 +13,7 @@ namespace EComDAL.DTOs
         public decimal Discount_Amount { get; set; }
         public decimal ShippingAmount { get; set; }
         public decimal GrandTotal { get; set; }
-        public Status CartStatus { get; set; }
+        public CartStatus CartStatus { get; set; }
         public User? User_Id { get; set; }
     }
 }

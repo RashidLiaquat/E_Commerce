@@ -7,25 +7,35 @@ namespace EComDAL.Model
     {
         [Key]
         public int Id { get; set; }
-        public DateTime Order_Date { get; set; } = DateTime.Now;
-        public decimal Total_Amount { get; set; }
-        public decimal Shipping_Fee { get; set; }
 
         [Required]
-        [StringLength(250, ErrorMessage = "Billing cannot exceed 50 characters")]
-        public string? Billing_Address { get; set; }
+        public DateTime OrderDate { get; set; } = DateTime.Now;
+
         [Required]
-        [StringLength(250, ErrorMessage = "Shipping Address cannot exceed 250 characters")]
-        public string? Shipping_Address { get; set; }
+        [Range(0, double.MaxValue, ErrorMessage = "Total amount must be a positive value.")]
+        public decimal TotalAmount { get; set; }
+
+        [Range(0, double.MaxValue, ErrorMessage = "Shipping fee cannot be negative.")]
+        public decimal ShippingFee { get; set; } = 0;
+
+        [Required]
+        [StringLength(250, ErrorMessage = "Billing address cannot exceed 250 characters.")]
+        public string BillingAddress { get; set; } = string.Empty;
+
+        [Required]
+        [StringLength(250, ErrorMessage = "Shipping address cannot exceed 250 characters.")]
+        public string ShippingAddress { get; set; } = string.Empty;
 
         [Required]
         public int UserId { get; set; }
 
         [ForeignKey("UserId")]
-        public User User { get; set; } = null!;
-        public Status Status { get; set; }
+        public virtual User User { get; set; } = null!;
 
-        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
-        public ICollection<Payment> Payments { get; set; } = new List<Payment>();
+        [Required]
+        public OrderStatus orderStatus { get; set; } = OrderStatus.Pending;
+
+        public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
     }
 }

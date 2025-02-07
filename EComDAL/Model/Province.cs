@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EComDAL.Model
 {
@@ -14,15 +9,15 @@ namespace EComDAL.Model
         public int Id { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "Province Name cannot exceed 100 characters")]
-        public string? Province_Name { get; set; }
+        [StringLength(100, ErrorMessage = "Province name cannot exceed 100 characters.")]
+        public string ProvinceName { get; set; } = string.Empty;
 
         [Required]
-        public int Country_Id { get; set; }
+        public int CountryId { get; set; }
 
-        [ForeignKey(nameof(Country_Id))]
-        public Country Country { get; set; } = null!;
+        [ForeignKey(nameof(CountryId))]
+        public virtual Country Country { get; set; } = null!;
 
-        //public ICollection<User> Users { get; set; } = new List<User>();
+        public virtual ICollection<User> Users { get; set; } = new List<User>();
     }
 }

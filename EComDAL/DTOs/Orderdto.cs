@@ -21,6 +21,6 @@ namespace EComDAL.DTOs
         [StringLength(250, ErrorMessage = "Shipping Address cannot exceed 250 characters")]
         public string? Shipping_Address { get; set; }
         public User? User_Id { get; set; }
-        public Status Status { get; set; }
+        public OrderStatus Status { get; set; }
     }
 }

@@ -7,18 +7,31 @@ namespace EComDAL.Model
     {
         [Key]
         public int Id { get; set; }
-        public decimal Total_Amount { get; set; }
-        public decimal Discount_Amount { get; set; }
-        public decimal ShippingAmount { get; set; }
+
+        [Required]
+        [Range(0, double.MaxValue, ErrorMessage = "Total amount cannot be negative")]
+        public decimal TotalAmount { get; set; }
+
+        [Range(0, double.MaxValue, ErrorMessage = "Discount amount cannot be negative")]
+        public decimal DiscountAmount { get; set; } = 0;
+
+        [Range(0, double.MaxValue, ErrorMessage = "Shipping amount cannot be negative")]
+        public decimal ShippingAmount { get; set; } = 0;
+
+        [Required]
+        [Range(0, double.MaxValue, ErrorMessage = "Grand total cannot be negative")]
         public decimal GrandTotal { get; set; }
-        public Status CartStatus { get; set; }
+
+        [Required]
+        public CartStatus CartStatus { get; set; }
 
         [Required]
         public int UserId { get; set; }
 
-        [ForeignKey("UserId")]
-        public User User { get; set; } = null!;
+        [ForeignKey(nameof(UserId))]
+        public virtual User User { get; set; } = null!;
 
-        public ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
+        public virtual ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
     }
+
 }

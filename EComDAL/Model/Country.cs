@@ -9,8 +9,8 @@ namespace EComDAL.Model
 
         [Required]
         [StringLength(50, ErrorMessage = "Country Name cannot exceed 50 characters")]
-        public string? Country_Name { get; set; }
+        public string CountryName { get; set; } = string.Empty;
 
-        //public ICollection<Province> Provinces { get; set; } = new List<Province>();
+        public virtual ICollection<Province> Provinces { get; set; } = new List<Province>();
     }
 }
