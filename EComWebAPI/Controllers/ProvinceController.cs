@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using EComDAL.DTOs;
 using EComDAL.Repositories.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EComWebAPI.Controllers
 {
+    
     [ApiController]
     [Route("[controller]")]
     public class ProvinceController : Controller
@@ -17,7 +19,7 @@ namespace EComWebAPI.Controllers
             _provinceRepository = provinceRepository;
             _mapper = mapper;
         }
-
+        [Authorize]
         [HttpGet("GetAllProvince")]
         public async Task<IActionResult> GetAllProvince()
         {
@@ -31,7 +33,7 @@ namespace EComWebAPI.Controllers
 
             return Ok(result);
         }
-
+        [Authorize]
         [HttpGet("GetProvinceById/{Id:int}")]
         public async Task<IActionResult> GetProvinceById(int Id)
         {
@@ -42,14 +44,14 @@ namespace EComWebAPI.Controllers
             }
             return Ok(result);
         }
-
+        [Authorize]
         [HttpPost("AddProvince")]
         public async Task<IActionResult> AddProvince([FromBody] Provincedto province)
         {
             await _provinceRepository.AddProvince(province);
             return Ok("Province Added Sucessfully!");
         }
-
+        [Authorize]
         [HttpDelete("DeleteProvince/{Id:int}")]
         public async Task<IActionResult> DeleteProvince(int Id)
         {
@@ -57,7 +59,7 @@ namespace EComWebAPI.Controllers
 
             return Ok("Province Sucessfully deleted");
         }
-
+        [Authorize]
         [HttpPost("Updateprovince/{Id:int}")]
         public async Task<IActionResult> UpdateProvince(Provincedto provincedto, int Id)
         {
