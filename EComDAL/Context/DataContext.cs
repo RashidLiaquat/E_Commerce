@@ -1,10 +1,5 @@
 ﻿using EComDAL.Model;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EComDAL.Context
 {
@@ -29,18 +24,11 @@ namespace EComDAL.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            //modelBuilder.Entity<Country>()
-            //    .HasMany(c => c.Provinces)
-            //    .WithOne(p => p.Country)
-            //    .HasForeignKey(p => p.Country_Id)
-            //    .OnDelete(DeleteBehavior.Cascade);
-
-
-            //modelBuilder.Entity<Province>()
-            //    .HasMany(p => p.Users)
-            //    .WithOne(u => u.Province)
-            //    .HasForeignKey(u => u.ProvinceID)
-            //    .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Country>()
+                .HasMany(p => p.Provinces)
+                .WithOne(c => c.Country)
+                .HasForeignKey(c => c.CountryId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<User>()
                 .HasMany(us => us.Carts)
@@ -61,14 +49,14 @@ namespace EComDAL.Context
                 .HasForeignKey(us => us.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<SubCategory>()
-                .HasMany(cat => cat.Categories)
-                .WithOne(subcat => subcat.SubCategory)
-                .HasForeignKey(cat => cat.SubCategoryId)
+            modelBuilder.Entity<Category>()
+                .HasMany(subcat => subcat.SubCategories)
+                .WithOne(cat => cat.Category)
+                .HasForeignKey(cat => cat.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<User>()
-                .HasMany(or => or.orders)
+                .HasMany(or => or.Orders)
                 .WithOne(u => u.User)
                 .HasForeignKey(u => u.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
@@ -86,7 +74,7 @@ namespace EComDAL.Context
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<User>()
-                .HasMany(pa => pa.payment)
+                .HasMany(pa => pa.Payments)
                 .WithOne(us => us.User)
                 .HasForeignKey(us => us.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
@@ -98,7 +86,7 @@ namespace EComDAL.Context
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Currency>()
-                .HasMany(pa => pa.Payment)
+                .HasMany(pa => pa.Payments)
                 .WithOne(cu => cu.Currency)
                 .HasForeignKey(cu => cu.CurrencyId)
                 .OnDelete(DeleteBehavior.Restrict);

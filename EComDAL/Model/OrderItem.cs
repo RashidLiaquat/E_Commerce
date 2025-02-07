@@ -7,21 +7,32 @@ namespace EComDAL.Model
     {
         [Key]
         public int Id { get; set; }
+
         [Required]
-        [Range(0, 1000000, ErrorMessage = "Total amount must be between 0 and 1,000,000")]
+        [Range(1, 1000000, ErrorMessage = "Quantity must be between 1 and 1,000,000.")]
         public int Quantity { get; set; }
-        public decimal Unit_Price { get; set; }
-        public decimal Total_Price { get; set; }
-        public decimal Discount { get; set; }
+
+        [Required]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Unit price must be greater than 0.")]
+        public decimal UnitPrice { get; set; } = 0;
+
+        [Required]
+        [Range(0, double.MaxValue, ErrorMessage = "Total price cannot be negative.")]
+        public decimal TotalPrice { get; set; } = 0;
+
+        [Range(0, double.MaxValue, ErrorMessage = "Discount cannot be negative.")]
+        public decimal Discount { get; set; } = 0;
+
         [Required]
         public int OrderId { get; set; }
+
         [ForeignKey(nameof(OrderId))]
-        public Order Order { get; set; } = null!;
+        public virtual Order Order { get; set; } = null!;
+
+        [Required]
         public int ProductId { get; set; }
+
         [ForeignKey(nameof(ProductId))]
-        public Product Product { get; set; } = null!;
-
-
-
+        public virtual Product Product { get; set; } = null!;
     }
 }

@@ -2,11 +2,15 @@
 {
     public enum IsDeletedStatus
     {
-        NotDeleted,
-        IsDeleted,
-        User,
-        Admin,
-        SuperAdmin
+        NotDeleted = 0,
+        Deleted = 1
 
+    }
+
+    public enum UserRole
+    {
+        User = 1,
+        Admin = 2,
+        SuperAdmin = 3
     }
 }

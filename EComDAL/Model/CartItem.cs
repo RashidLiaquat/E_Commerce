@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EComDAL.Model
 {
@@ -13,20 +8,33 @@ namespace EComDAL.Model
     {
         [Key]
         public int Id { get; set; }
+
+        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Quantity must be at least 1")]
         public int Quantity { get; set; }
-        public decimal Unit_Price { get; set; }
-        public decimal Discount { get; set; }
-        public decimal Total_Price { get; set; }
+
+        [Required]
+        [Range(0, double.MaxValue, ErrorMessage = "Unit price cannot be negative")]
+        public decimal UnitPrice { get; set; }
+
+        [Range(0, double.MaxValue, ErrorMessage = "Discount cannot be negative")]
+        public decimal Discount { get; set; } = 0;
+
+        [Required]
+        [Range(0, double.MaxValue, ErrorMessage = "Total price cannot be negative")]
+        public decimal TotalPrice { get; set; }
+
         [Required]
         public int CartId { get; set; }
 
         [ForeignKey(nameof(CartId))]
-        public Cart Cart { get; set; } = null!;
+        public virtual Cart Cart { get; set; } = null!;
+
         [Required]
         public int ProductId { get; set; }
 
         [ForeignKey(nameof(ProductId))]
-        public Product Product { get; set; } = null!;
-
+        public virtual Product Product { get; set; } = null!;
     }
+
 }
