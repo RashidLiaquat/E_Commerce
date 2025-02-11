@@ -80,9 +80,9 @@ namespace EComDAL.Repositories
                 throw new KeyNotFoundException();
             }
             _mapper.Map(result, provincedto);
-            if (provincedto.CountryId.HasValue)
+            if (provincedto.CountryId != 0)
             {
-                var country = await _context.Set<Country>().FindAsync(provincedto.CountryId.Value);
+                var country = await _context.Set<Country>().FindAsync(provincedto.CountryId != 0);
 
                 if (country == null)
                 {

@@ -12,7 +12,7 @@ namespace EComWebAPI.Mappings
             CreateMap<User, Userdto>().ReverseMap();
             CreateMap<Provincedto, Province>()
                .ForMember(dest => dest.Country, opt => opt.Ignore())  // Country navigation property ignore
-               .ForMember(dest => dest.CountryId, opt => opt.MapFrom(src => src.CountryId)); 
+               .ForMember(dest => dest.CountryId, opt => opt.MapFrom(src => src.CountryId));
             CreateMap<Cart, Cartdto>().ReverseMap();
             CreateMap<CartItem, CartItemdto>().ReverseMap();
             CreateMap<Category, Categorydto>().ReverseMap();
@@ -24,6 +24,9 @@ namespace EComWebAPI.Mappings
             CreateMap<Product, Productdto>().ReverseMap();
             CreateMap<SubCategory, SubCategorydto>().ReverseMap();
             CreateMap<AuditFields, AuditFieldsdto>().ReverseMap();
+            CreateMap<UserUpdatedto, User>()
+             .ForMember(dest => dest.GenderStatus, opt => opt.MapFrom(src => src.Gender))
+             .ForMember(dest => dest.UpdatedBy, opt => opt.Ignore());
 
 
         }
