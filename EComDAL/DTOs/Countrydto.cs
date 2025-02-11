@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace EComDAL.DTOs
 {
@@ -11,6 +6,6 @@ namespace EComDAL.DTOs
     {
         [Required]
         [StringLength(50, ErrorMessage = "Country Name cannot exceed 50 characters")]
-        public string? Country_Name { get; set; }
+        public string CountryName { get; set; } = string.Empty;
     }
 }

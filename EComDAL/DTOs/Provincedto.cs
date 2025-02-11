@@ -1,10 +1,4 @@
-﻿using EComDAL.Model;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace EComDAL.DTOs
 {
@@ -12,7 +6,7 @@ namespace EComDAL.DTOs
     {
         [Required]
         [StringLength(100, ErrorMessage = "Province Name cannot exceed 100 characters")]
-        public string? Province_Name { get; set; }
-        public int? CountryId { get; set; }
+        public string ProvinceName { get; set; } = string.Empty;
+        public int CountryId { get; set; }
     }
 }
