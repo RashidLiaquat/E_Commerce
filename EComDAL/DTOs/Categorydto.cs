@@ -7,7 +7,7 @@ namespace EComDAL.DTOs
     {
         [Required]
         [StringLength(50, ErrorMessage = "Category Name cannot exceed 50 characters")]
-        public string Category_Name { get; set; } = string.Empty;
+        public string CategoryName { get; set; } = string.Empty;
 
         [Required]
         [StringLength(150, ErrorMessage = "Description cannot exceed 150 characters")]
@@ -16,6 +16,6 @@ namespace EComDAL.DTOs
         [Required]
         public string Image { get; set; } = string.Empty;
 
-        public SubCategory SubCategoryId { get; set; } = null!;
+        public int SubCategoryId { get; set; }
     }
 }

@@ -30,7 +30,7 @@ namespace EComDAL.DTOs
         [NotMapped] // This ensures the field is not saved in the database
         [Required(ErrorMessage = "Confirm Password is required")]
         [Compare("Password", ErrorMessage = "Password and Confirm Password must match")]
-        public string? ConfirmPassword { get; set; } = string.Empty;
+        public string ConfirmPassword { get; set; } = string.Empty;
         [Required]
         [StringLength(250, ErrorMessage = "Address cannot exceed 250 characters")]
         public string Address { get; set; } = string.Empty;
