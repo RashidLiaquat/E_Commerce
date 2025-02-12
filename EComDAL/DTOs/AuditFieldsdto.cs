@@ -1,5 +1,4 @@
 ﻿using EComDAL.Model;
-using System.ComponentModel.DataAnnotations;
 
 namespace EComDAL.DTOs
 {
