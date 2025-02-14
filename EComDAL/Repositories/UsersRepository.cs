@@ -91,7 +91,13 @@ namespace EComDAL.Repositories
                 throw new InvalidOperationException("Users DbSet is null");
             }
 
-            var result = await _context.Users.Where(x => x.IsActive == true).ToListAsync();
+            var result = await _context.Users.Where(x => x.IsActive == true)
+                .Include(o=> o.Orders)
+                //.Include(p=> p.Payments)
+                //.Include(r=> r.Province)
+                .ToListAsync();
+
+
 
             return result;
 

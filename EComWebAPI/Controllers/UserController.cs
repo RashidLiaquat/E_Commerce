@@ -1,5 +1,4 @@
 ﻿using EComDAL.DTOs;
-using EComDAL.Repositories;
 using EComDAL.Repositories.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
