@@ -33,12 +33,14 @@ namespace EComDAL.Repositories
                 throw new KeyNotFoundException($"SubCategory is Empty");
             }
 
-            var category = await categoryExists.AnyAsync(c => c.Id == subCategorydto.Id);
+            var category = await categoryExists.AnyAsync(c => c.Id == subCategorydto.CategoryId);
             var SubCategory= await SubCategoryExists.AnyAsync(c => c.Sub_Category_Name == subCategorydto.Sub_Category_Name);
 
             if (category && ! SubCategory)
             {
                 var map = _mapper.Map<SubCategory>(subCategorydto);
+                subCategorydto.Created_By = _genaricRepository.GetCurrentUser()?.UserName ?? throw new InvalidOperationException("Current user is null");
+                subCategorydto.Created_Date = DateTime.Now;
                 _context.Set<SubCategory>().Add(map);
                 await _context.SaveChangesAsync();
             }

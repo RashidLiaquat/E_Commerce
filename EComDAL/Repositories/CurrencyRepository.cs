@@ -29,6 +29,8 @@ namespace EComDAL.Repositories
             }
 
             var mapp = _mapper.Map<Currency>(currencydto);
+            currencydto.Created_By = _genaricRepository.GetCurrentUser()?.UserName ?? throw new InvalidOperationException("Current user is null");
+            currencydto.Created_Date = DateTime.Now;
             await _context.Set<Currency>().AddAsync(mapp);
             await _context.SaveChangesAsync();
         }
@@ -98,7 +100,8 @@ namespace EComDAL.Repositories
             {
                 throw new InvalidOperationException("Current user not found");
             }
-            result.UpdatedBy = currentUser.UserName;
+            currencydto.Updated_By = currentUser.UserName ?? throw new InvalidOperationException("Current user is null");
+            currencydto.Updated_Date = DateTime.Now;
             await _context.SaveChangesAsync();
         }
     }

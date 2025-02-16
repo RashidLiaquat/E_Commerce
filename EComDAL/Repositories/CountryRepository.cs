@@ -11,11 +11,12 @@ namespace EComDAL.Repositories
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public CountryRepository(DataContext context, IMapper mapper)
+        private readonly IGenaricRepository _genaricRepository;
+        public CountryRepository(DataContext context, IMapper mapper, IGenaricRepository genaricRepository)
         {
             _context = context;
             _mapper = mapper;
-
+            _genaricRepository = genaricRepository;
         }
 
         public async Task<IEnumerable<Country>> GetAllCountry()
@@ -45,6 +46,8 @@ namespace EComDAL.Repositories
             {
                 throw new KeyNotFoundException("Country Not Found");
             }
+            country.CreatedBy = _genaricRepository.GetCurrentUser()?.UserName ?? throw new InvalidOperationException("Current user is null");
+            country.CreatedDate = DateTime.Now;
             await _context.Set<Country>().AddAsync(country);
             await _context.SaveChangesAsync();
         }
@@ -66,6 +69,8 @@ namespace EComDAL.Repositories
                 throw new KeyNotFoundException("Country Not Found");
             }
             _mapper.Map(countrydto, result);
+            countrydto.Updated_By = _genaricRepository.GetCurrentUser()?.UserName ?? throw new InvalidOperationException("Current user is null");
+            countrydto.Updated_Date = DateTime.Now;
             _context.Set<Country>().Update(result);
             await _context.SaveChangesAsync();
         }

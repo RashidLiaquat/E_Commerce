@@ -13,10 +13,12 @@ namespace EComDAL.Repositories
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public RoleRepository(DataContext context, IMapper mapper)
+        private readonly IGenaricRepository _genaricRepository;
+        public RoleRepository(DataContext context, IMapper mapper, IGenaricRepository genaricRepository)
         {
             _context = context;
             _mapper = mapper;
+            _genaricRepository = genaricRepository;
         }
         public async Task<IEnumerable<Roledto>> GetAllRole()
         {
@@ -49,14 +51,16 @@ namespace EComDAL.Repositories
             {
                 throw new KeyNotFoundException($"Role is not Found {result}");
             }
+            result.CreatedBy = _genaricRepository.GetCurrentUser()?.UserName ?? throw new InvalidOperationException("Current user is null");
+            result.CreatedDate = DateTime.Now;
             await _context.Set<Role>().AddAsync(result);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteRoleAsync(int Id) 
+        public async Task DeleteRoleAsync(int Id)
         {
             var result = await _context.Set<Role>().FindAsync(Id);
-            if(result == null)
+            if (result == null)
             {
                 throw new KeyNotFoundException($"Roles list is empty {result}");
             }
@@ -65,18 +69,20 @@ namespace EComDAL.Repositories
             await _context.SaveChangesAsync();
 
         }
-        public async Task Updated(Roledto roledto,int Id) 
+        public async Task Updated(Roledto roledto, int Id)
         {
             var result = await _context.Set<Role>().FindAsync(Id);
-            if (result == null) 
+            if (result == null)
             {
                 throw new KeyNotFoundException($"Roles is not Found");
             }
-              _mapper.Map(roledto, result);
+            _mapper.Map(roledto, result);
 
+            result.UpdatedBy = _genaricRepository.GetCurrentUser()?.UserName ?? throw new InvalidOperationException("Current user is null");
+            result.UpdatedDate = DateTime.Now;
             _context.Set<Role>().Update(result);
             _context.SaveChanges();
-            
+
         }
     }
 }

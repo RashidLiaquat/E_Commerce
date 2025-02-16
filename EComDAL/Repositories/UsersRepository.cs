@@ -48,6 +48,7 @@ namespace EComDAL.Repositories
                 RoleId = userdto.RoleId,
                 ProvinceId = userdto.ProvinceId,
                 CreatedBy = CurrentUser?.UserName ?? throw new InvalidOperationException("Current user is null"),
+                CreatedDate = DateTime.Now
             };
             users.Password = BCrypt.Net.BCrypt.HashPassword(users.Password);
 
@@ -138,6 +139,7 @@ namespace EComDAL.Repositories
 
             _mapper.Map(userdto, result);
             result.UpdatedBy = CurrentUser?.UserName ?? throw new InvalidOperationException("Current user is null");
+            result.UpdatedDate = DateTime.Now;
             _context.Set<User>().Update(result);
             await _context.SaveChangesAsync();
         }

@@ -11,11 +11,13 @@ namespace EComDAL.Repositories
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
+        private readonly IGenaricRepository _genaricRepository;
 
-        public CategoryRepository(DataContext dataContext, IMapper mapper)
+        public CategoryRepository(DataContext dataContext, IMapper mapper, IGenaricRepository genaricRepository)
         {
             _context = dataContext;
             _mapper = mapper;
+            _genaricRepository = genaricRepository;
         }
         public async Task AddCategory(Categorydto categorydto)
         {
@@ -24,7 +26,8 @@ namespace EComDAL.Repositories
             {
                 throw new KeyNotFoundException($"Category not found");
             }
-
+            categorydto.Created_By = _genaricRepository.GetCurrentUser()?.UserName ?? throw new InvalidOperationException("Current user is null");
+            categorydto.Created_Date = DateTime.Now;
             await _context.Set<Category>().AddAsync(result);
             await _context.SaveChangesAsync();
         }
@@ -73,6 +76,8 @@ namespace EComDAL.Repositories
             }
 
             _mapper.Map(categorydto, result);
+            categorydto.Updated_By = _genaricRepository.GetCurrentUser()?.UserName ?? throw new InvalidOperationException("Current user is null");
+            categorydto.Updated_Date = DateTime.Now;
             _context.Set<Category>().Update(result);
             await _context.SaveChangesAsync();
 
