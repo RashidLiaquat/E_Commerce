@@ -28,8 +28,23 @@ namespace EComDAL.Repositories
             }
             categorydto.Created_By = _genaricRepository.GetCurrentUser()?.UserName ?? throw new InvalidOperationException("Current user is null");
             categorydto.Created_Date = DateTime.Now;
-            await _context.Set<Category>().AddAsync(result);
-            await _context.SaveChangesAsync();
+            var Categoriesexists = _context.Categories;
+
+            if (Categoriesexists == null)
+            {
+                throw new InvalidOperationException("Categories DbSet is null");
+            }
+
+            var Category = await Categoriesexists.AnyAsync(c => c.CategoryName == categorydto.CategoryName);
+            if (!Category)
+            {
+                await _context.Set<Category>().AddAsync(result);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException($"Category already exists");
+            }
         }
 
         public async Task DeleteCategory(int Id)
