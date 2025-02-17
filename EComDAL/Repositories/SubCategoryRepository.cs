@@ -34,9 +34,9 @@ namespace EComDAL.Repositories
             }
 
             var category = await categoryExists.AnyAsync(c => c.Id == subCategorydto.CategoryId);
-            var SubCategory= await SubCategoryExists.AnyAsync(c => c.Sub_Category_Name == subCategorydto.Sub_Category_Name);
+            var SubCategory = await SubCategoryExists.AnyAsync(c => c.Sub_Category_Name == subCategorydto.Sub_Category_Name);
 
-            if (category && ! SubCategory)
+            if (category && !SubCategory)
             {
                 var map = _mapper.Map<SubCategory>(subCategorydto);
                 subCategorydto.Created_By = _genaricRepository.GetCurrentUser()?.UserName ?? throw new InvalidOperationException("Current user is null");
@@ -44,11 +44,16 @@ namespace EComDAL.Repositories
                 _context.Set<SubCategory>().Add(map);
                 await _context.SaveChangesAsync();
             }
+
+            else
+            {
+                throw new KeyNotFoundException($"Category allready Exists");
+            }
         }
 
         public async Task DeleteSubCategory(int Id)
         {
-           var checkcontext = _context.SubCategories;
+            var checkcontext = _context.SubCategories;
             if (checkcontext == null)
             {
                 throw new KeyNotFoundException($"SubCategories is Empty");
@@ -67,19 +72,63 @@ namespace EComDAL.Repositories
             }
         }
 
-        public Task<IEnumerable<SubCategory>> GetAllSubCategories()
+        public async Task<IEnumerable<SubCategory>> GetAllSubCategories()
         {
-            throw new NotImplementedException();
+            var subCategories = _context.SubCategories;
+            if (subCategories == null)
+            {
+                throw new KeyNotFoundException($"SubCategory List Empty");
+            }
+
+            var result = await subCategories.Where(x => x.IsActive == true).ToListAsync();
+            if (result != null)
+            {
+                return result;
+            }
+            else
+            {
+                throw new KeyNotFoundException($"SubCategory List Empty");
+            }
+
         }
 
-        public Task<SubCategory> GetsubCategoryById(int Id)
+        public async Task<SubCategory> GetsubCategoryById(int Id)
         {
-            throw new NotImplementedException();
+            var CheckContextresult = _context.SubCategories;
+            if (CheckContextresult == null)
+            {
+                throw new KeyNotFoundException($"SubCategories is Empty");
+            }
+            var result = await CheckContextresult.Where(x => x.Id == Id && x.IsActive == true).FirstOrDefaultAsync();
+            if (result != null)
+            {
+                return result;
+            }
+            else
+            {
+                throw new KeyNotFoundException($"SubCategory Not Found");
+            }
         }
 
-        public Task UpdateSubCategory(SubCategorydto subCategorydto, int Id)
+        public async Task UpdateSubCategory(SubCategorydto subCategorydto, int Id)
         {
-            throw new NotImplementedException();
+            var checkcontext = _context.SubCategories;
+            if (checkcontext == null)
+            {
+                throw new KeyNotFoundException($"SubCategories is Empty");
+            }
+            var result = await checkcontext.Where(x => x.Id == Id && x.IsActive == true).FirstOrDefaultAsync();
+            if (result != null)
+            {
+                _mapper.Map(subCategorydto, result);
+                subCategorydto.Updated_By = _genaricRepository.GetCurrentUser()?.UserName ?? throw new InvalidOperationException("Current user is null");
+                subCategorydto.Updated_Date = DateTime.Now;
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException($"SubCategory Not Found");
+            }
         }
     }
 }
