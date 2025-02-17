@@ -62,7 +62,8 @@ namespace EComDAL.Repositories
 
         public async Task<IEnumerable<Category>> GetAllCategories()
         {
-            var result = await _context.Set<Category>().ToListAsync();
+            var result = await _context.Set<Category>()
+                .ToListAsync();
 
             if (result == null)
             {
