@@ -21,35 +21,39 @@ namespace EComDAL.Repositories
         }
         public async Task AddOrderItem(OrderItemdto orderItemdto)
         {
-            var orderExists = _context.Orders;
-            var productExists = _context.Products;
-            if (orderExists == null)
+            if (orderItemdto == null)
             {
-                throw new KeyNotFoundException("Order is Empty");
+                throw new ArgumentNullException(nameof(orderItemdto), "OrderItem data is null");
             }
-            if (productExists == null)
-            {
-                throw new KeyNotFoundException("Product is Empty");
-            }
-            var order = await orderExists.AnyAsync(c => c.Id == orderItemdto.OrderId.Id && c.IsActive == true);
-            var product = await productExists.AnyAsync(c => c.Id == orderItemdto.ProductId.Id && c.IsActive == true);
 
-            if (order && product)
+            var order = await (_context.Orders?.FirstOrDefaultAsync(c => c.Id == orderItemdto.OrderId.Id && c.IsActive)
+                ?? throw new InvalidOperationException("Orders DbSet is null"));
+
+            if (order == null)
             {
-                var orderItems = _mapper.Map<OrderItem>(orderItemdto);
-                if (orderItems == null)
-                {
-                    throw new KeyNotFoundException("OrderItem not found");
-                }
-                orderItemdto.Created_By = _genaricRepository.GetCurrentUser()?.UserName ?? throw new InvalidOperationException("Current user is null");
-                orderItemdto.Created_Date = DateTime.Now;
-                await _context.Set<OrderItem>().AddAsync(orderItems);
+                throw new KeyNotFoundException("Order not found or inactive");
             }
-            else
+
+            var product = await (_context.Products?.FirstOrDefaultAsync(c => c.Id == orderItemdto.ProductId.Id && c.IsActive)
+                ?? throw new InvalidOperationException("Products DbSet is null"));
+
+            if (product == null)
             {
-                throw new KeyNotFoundException("Order or Product not found");
+                throw new KeyNotFoundException("Product not found or inactive");
             }
+
+            var orderItem = _mapper.Map<OrderItem>(orderItemdto);
+
+            orderItem.CreatedBy = _genaricRepository.GetCurrentUser()?.UserName
+                ?? throw new InvalidOperationException("Current user is null");
+
+            orderItem.CreatedDate = DateTime.Now;
+
+            await _context.Set<OrderItem>().AddAsync(orderItem);
+
+            await _context.SaveChangesAsync();
         }
+
 
         public async Task DeleteOrderItem(int Id)
         {
