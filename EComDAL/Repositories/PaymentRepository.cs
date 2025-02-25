@@ -21,104 +21,113 @@ namespace EComDAL.Repositories
         }
         public async Task AddPayment(Paymentdto paymentdto)
         {
-            var orderE = _context.Orders;
-            var userE = _context.Users;
-            var paymentE = _context.Payments;
+            var orderExists = await _context.Orders.AnyAsync(o => o.Id == paymentdto.OrderId.Id && o.IsActive);
+            var userExists = await _context.Users.AnyAsync(u => u.Id == paymentdto.UserId.Id && u.IsActive);
+            var currencyExists = await _context.Currencies.AnyAsync(c => c.Id == paymentdto.CurrencyId.Id && c.IsActive);
 
-            if (orderE == null || userE == null || paymentE == null)
+            if (!orderExists || !userExists || !currencyExists)
             {
-                throw new Exception("One or more required tables are empty.");
-            }
-
-            var orderExists = await orderE.Where(o => o.Id == paymentdto.OrderId.Id && o.IsActive == true).FirstOrDefaultAsync();
-            var userExists = await userE.Where(u => u.Id == paymentdto.UserId.Id && u.IsActive == true).FirstOrDefaultAsync();
-            var paymentExists = await paymentE.Where(p => p.Id == paymentdto.Id && p.IsActive == true).FirstOrDefaultAsync();
-
-            if (orderExists == null || userExists == null || paymentExists != null)
-            {
-                throw new Exception("One or more required entities are not found.");
+                throw new KeyNotFoundException("One or more required entities (Order, User, or Currency) do not exist.");
             }
 
             var payment = _mapper.Map<Payment>(paymentdto);
             if (payment == null)
             {
-                throw new Exception("Payment mapping failed.");
+                throw new InvalidOperationException("Payment mapping failed.");
             }
-            payment.CreatedBy = _genaricRepository.GetCurrentUser()?.UserName ?? throw new InvalidOperationException("Current user is null");
-            payment.CreatedDate = DateTime.Now;
-            _context.Set<Payment>().Add(payment);
-            await _context.SaveChangesAsync();
 
+            var currentUser = _genaricRepository.GetCurrentUser();
+            if (currentUser == null)
+            {
+                throw new InvalidOperationException("Current user is null.");
+            }
+
+            payment.CreatedBy = currentUser.UserName;
+            payment.CreatedDate = DateTime.UtcNow;
+
+            await _context.Payments.AddAsync(payment);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task DeletePayment(int Id)
+
+        public async Task DeletePayment(int id)
         {
-            var orderE = _context.Orders;
-            var userE = _context.Users;
-            var paymentE = _context.Payments;
-
-            if (orderE == null || userE == null || paymentE == null)
-            {
-                throw new Exception("One or more required tables are empty.");
-            }
-
-            var payment = await paymentE.Where(p => p.Id == Id && p.IsActive == true)
+            var payment = await _context.Payments
                 .Include(p => p.Order)
                 .Include(p => p.User)
-                .FirstOrDefaultAsync();
+                .Include(p => p.Currency)
+                .FirstOrDefaultAsync(p => p.Id == id && p.IsActive);
+
             if (payment == null)
             {
-                throw new Exception("Payment not found.");
+                throw new KeyNotFoundException($"Payment with ID {id} not found or inactive.");
             }
 
-            _context.Set<Payment>().Remove(payment);
+            if (payment.Order != null)
+            {
+                throw new InvalidOperationException("Cannot delete payment linked to an active order.");
+            }
+
+            _context.Payments.Remove(payment);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Payment>> GetAllPayment()
+
+        public async Task<IEnumerable<Payment>> GetAllPayments()
         {
-            var result = await _context.Set<Payment>()
+            var payments = await _context.Payments
                 .Include(p => p.Order)
                 .Include(p => p.User)
+                .Include(p => p.Currency)
                 .ToListAsync();
-            if (result == null)
-            {
-                throw new Exception("Payment List Empty.");
-            }
-            return result;
+
+            return payments;
         }
 
-        public async Task<Payment> GetPaymentById(int Id)
+
+        public async Task<Payment> GetPaymentById(int id)
         {
-            var result = await _context.Set<Payment>()
-                   .Include(p => p.Order)
-                   .Include(p => p.User)
-                   .Where(p => p.Id == Id && p.IsActive == true)
-                   .FirstOrDefaultAsync();
+            var result = await _context.Payments
+                .Include(p => p.Order)
+                .Include(p => p.User)
+                .Include(p => p.Currency)
+                .FirstOrDefaultAsync(p => p.Id == id && p.IsActive);
+
             if (result == null)
             {
-                throw new Exception("Payment not found.");
+                throw new KeyNotFoundException($"Payment with ID {id} not found or inactive.");
             }
 
             return result;
         }
+
 
         public async Task UpdatePayment(Paymentdto payment, int Id)
         {
             var result = await _context.Payments
-                 .Include(p => p.Order)
-                 .Include(p => p.User)
-                 .Where(p => p.Id == Id && p.IsActive == true)
-                 .FirstOrDefaultAsync();
+                .Include(o => o.Order)
+                .Include(u => u.User)
+                .Include(c => c.Currency)
+                .FirstOrDefaultAsync(p => p.Id == Id && p.IsActive);
+
             if (result == null)
             {
-                throw new Exception("Payment not found.");
+                throw new KeyNotFoundException($"Payment with ID {Id} not found or inactive.");
             }
+
             _mapper.Map(payment, result);
-            result.UpdatedBy = _genaricRepository.GetCurrentUser()?.UserName ?? throw new InvalidOperationException("Current user is null");
+
+            var currentUser = _genaricRepository.GetCurrentUser();
+            if (currentUser == null)
+            {
+                throw new InvalidOperationException("Current user is null");
+            }
+
+            result.UpdatedBy = currentUser.UserName;
             result.UpdatedDate = DateTime.Now;
-            _context.Set<Payment>().Update(result);
+
             await _context.SaveChangesAsync();
         }
+
     }
 }
